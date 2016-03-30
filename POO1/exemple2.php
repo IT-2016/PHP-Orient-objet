@@ -1,10 +1,35 @@
 <?php
-	const ONE = 1;
+  class A
+  {
+    function toto()
+    {
+      if (isset($this)) {
+        echo '$this est définie (';
+        echo get_class($this);
+        echo ")\n";
+      } else {
+        echo "\$this n'est pas définie.\n";
+      }
+    }
+  }
 
-	class foo {
-	    // Depuis PHP 5.6.0
-	    const TWO = ONE * 2;
-	    const THREE = ONE + self::TWO;
-	    const SENTENCE = 'The value of THREE is '.self::THREE;
-	}
+  class B
+  {
+    function titi()
+    {
+      // Note: la ligne suivante émet une erreur si E_STRICT est activé.
+      A::toto();
+    }
+  }
+
+  $a = new A();
+  $a->toto();
+
+  // Note: la ligne suivante émet une erreur si E_STRICT est activé.
+  A::toto();
+  $b = new B();
+  $b->titi();
+
+  // Note: la ligne suivante émet une erreur si E_STRICT est activé.
+  B::titi();
 ?>

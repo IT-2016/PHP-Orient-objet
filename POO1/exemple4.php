@@ -1,36 +1,27 @@
 <?php
-    class A
-    {
-        function __construct()
-        {
-            $a = func_get_args();
-            $i = func_num_args();
-            if (method_exists($this,$f='__construct'.$i)) {
-                call_user_func_array(array($this,$f),$a);
-            }
-        }
-       
-        function __construct1($a1)
-        {
-            echo('__construct with 1 param called: '.$a1.PHP_EOL);
-        }
-       
-        function __construct2($a1,$a2)
-        {
-            echo('__construct with 2 params called: '.$a1.','.$a2.PHP_EOL);
-        }
-       
-        function __construct3($a1,$a2,$a3)
-        {
-            echo('__construct with 3 params called: '.$a1.','.$a2.','.$a3.PHP_EOL);
-        }
-    }
-    $o = new A('sheep');
-    $o = new A('sheep','cat');
-    $o = new A('sheep','cat','dog');
+	class Test
+	{
+	    static public function getNew()
+	    {
+	        return new static;
+	    }
+	}
 
-    // results:
-    // __construct with 1 param called: sheep
-    // __construct with 2 params called: sheep,cat
-    // __construct with 3 params called: sheep,cat,dog
+	class Child extends Test
+	{}
+
+	$obj1 = new Test();
+	$obj2 = new $obj1;
+	var_dump($obj1 !== $obj2);
+
+	$obj3 = Test::getNew();
+	var_dump($obj3 instanceof Test);
+
+	$obj4 = Child::getNew();
+	var_dump($obj4 instanceof Child);
+
+	// Affichera : 
+	// bool(true)
+	// bool(true)
+	// bool(true)
 ?>
